@@ -1,7 +1,7 @@
-﻿using SchoolProject.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolProject.Data.Entities;
 using SchoolProject.Infrustructure.Abstracts;
 using SchoolProject.Service.Abstracts;
-using System.Data.Entity;
 
 namespace SchoolProject.Service.Implementations
 {
@@ -27,8 +27,6 @@ namespace SchoolProject.Service.Implementations
             return student;
         }
 
-
-
         async Task<string> IStudentService.AddStudentAsync(Student student)
         {
             await _studentRepository.AddAsync(student);
@@ -36,7 +34,7 @@ namespace SchoolProject.Service.Implementations
         }
         public async Task<bool> IsStudentNameExist(string name)
         {
-            var student = _studentRepository.GetTableNoTracking().Where(s => s.Name.Equals(name)).FirstOrDefault();
+            var student = await _studentRepository.GetTableNoTracking().Where(s => s.Name.Equals(name)).FirstOrDefaultAsync();
             if (student == null) return false;
             return true;
         }
@@ -46,6 +44,12 @@ namespace SchoolProject.Service.Implementations
             var student = await _studentRepository.GetTableNoTracking().Where(s => s.Name.Equals(name) & s.StudID.Equals(id)).FirstOrDefaultAsync();
             if (student == null) return false;
             return true;
+        }
+
+        public async Task<string> EditStudentAsync(Student student)
+        {
+            await _studentRepository.UpdateAsync(student);
+            return "successfully";
         }
 
         #endregion

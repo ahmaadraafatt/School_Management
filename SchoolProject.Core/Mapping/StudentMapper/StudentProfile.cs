@@ -9,8 +9,7 @@ namespace SchoolProject.Core.Mapping.StudentMapper
             GetStudentListMapping();
             GetStudentByIdMapping();
             AddStudentCommandMapping();
-
+            EditStudnetCommandMapping();
         }
-
     }
 }

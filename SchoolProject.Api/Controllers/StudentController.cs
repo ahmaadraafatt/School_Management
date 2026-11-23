@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Api.Base;
 using SchoolProject.Core.Features.Students.Commands.Models;
 using SchoolProject.Core.Features.Students.Queries.Models;
@@ -12,7 +11,7 @@ namespace SchoolProject.Api.Controllers
     {
         [HttpGet(Router.studentRouting.List)]
         public async Task<IActionResult> GetStudentsList()
-        { 
+        {
             var response = await _mediatR.Send(new GetStudentListQuery());
             return NewResult(response);
         }
@@ -24,6 +23,12 @@ namespace SchoolProject.Api.Controllers
         }
         [HttpPost(Router.studentRouting.Create)]
         public async Task<IActionResult> Creat([FromBody] AddStudentCommand command)
+        {
+            var response = await _mediatR.Send(command);
+            return NewResult(response);
+        }
+        [HttpPut(Router.studentRouting.Edit)]
+        public async Task<IActionResult> Edit([FromBody] EditStudentCommand command)
         {
             var response = await _mediatR.Send(command);
             return NewResult(response);

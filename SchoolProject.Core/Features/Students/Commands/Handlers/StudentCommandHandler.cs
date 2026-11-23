@@ -34,7 +34,13 @@ namespace SchoolProject.Core.Features.Students.Commands.Handlers
 
         public async Task<Response<string>> Handle(EditStudentCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var student = await _studentService.GetStudentByIdAsync(request.Id);
+            if (student == null)
+                return NotFound<string>("Student not found");
+            var studentMapper = _mapper.Map<Student>(request);
+            var result = await _studentService.EditStudentAsync(studentMapper);
+            if (result == "successfully") return Success($"Edit Successfully{studentMapper.StudID}");
+            else return BadRequest<string>();
         }
         #endregion
     }
